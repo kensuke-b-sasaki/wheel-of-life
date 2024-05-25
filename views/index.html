@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wheel of Life</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 100;
+      font-family: 'Noto Sans';
+    }
+    .min-h-screen {
+      min-height: 100vh;
+    }
+    .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+  }
+  .slider:hover {
+    opacity: 1;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color, #67b7dc);
+    cursor: pointer;
+  }
+  .slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--slider-thumb-color, #67b7dc);
+    cursor: pointer;
+  }
+  </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-start min-h-screen">
+  <div class="w-full max-w-4xl bg-white shadow-md rounded-lg p-6 flex-grow">
+
+    <h1 class="text-2xl font-bold mb-4">Wheel of life / 人生の輪</h1>
+    <span class="text-gray-700">Color </span>
+    <select id="colorSelector" class="bg-white border border-gray-300 text-gray-700 py-1 px-2 rounded text-sm leading-tight focus:outline-none focus:bg-white focus:border-gray-300">
+      <option value="#67b7dc">PETER RIVER</option>
+      <option value="#7f8c8d">ASBESTOS</option>
+      <option value="#1abc9c">TURQUOISE</option>
+    </select>
+    <div id="chartdiv" class="aspect-square h-96 mb-8"></div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="slider-container">
+        <div class="flex justify-between items-center">
+          <label for="slider-career" class="block text-gray-700">仕事・キャリア</label>
+          <span id="value-career" class="font-bold text-gray-700">5</span>
+        </div>
+        <input type="range" id="slider-career" min="1" max="10" value="5" class="slider">
+      </div>
+      <div class="slider-container">
+        <div class="flex justify-between items-center">
+          <label for="slider-money" class="block text-gray-700">お金・経済</label>
+          <span id="value-money" class="font-bold text-gray-700">5</span>
+        </div>
+        <input type="range" id="slider-money" min="1" max="10" value="5" class="slider">
+      </div>
+      <div class="slider-container">
+        <div class="flex justify-between items-center">
+          <label for="slider-health" class="block text-gray-700">健康</label>
+          <span id="value-health" class="font-bold text-gray-700">5</span>
+        </div>
+        <input type="range" id="slider-health" min="1" max="10" value="5" class="slider">
+      </div>
+      <div class="slider-container">
+        <div class="flex justify-between items-center">
+          <label for="slider-family" class="block text-gray-700">家族・パートナー</label>
+          <span id="value-family" class="font-bold text-gray-700">5</span>
+        </div>
+        <input type="range" id="slider-family" min="1" max="10" value="5" class="slider">
+      </div>
+      <div class="slider-container">
+        <div class="flex justify-between items-center">
+          <label for="slider-relationships" class="block text-gray-700">人間関係</label>
+          <span id="value-relationships" class="font-bold text-gray-700">5</span>
+        </div>
+        <input type="range" id="slider-relationships" min="1" max="10" value="5" class="slider">
+      </div>
+      <div class="slider-container">
+        <div class="flex justify-between items-center">
+          <label for="slider-learning" class="block text-gray-700">学び・自己啓発</label>
+          <span id="value-learning" class="font-bold text-gray-700">5</span>
+        </div>
+        <input type="range" id="slider-learning" min="1" max="10" value="5" class="slider">
+      </div>
+      <div class="slider-container">
+        <div class="flex justify-between items-center">
+          <label for="slider-leisure" class="block text-gray-700">遊び・余暇</label>
+          <span id="value-leisure" class="font-bold text-gray-700">5</span>
+        </div>
+        <input type="range" id="slider-leisure" min="1" max="10" value="5" class="slider">
+      </div>
+      <div class="slider-container">
+        <div class="flex justify-between items-center">
+          <label for="slider-physicalenvironment" class="block text-gray-700">物理的環境</label>
+          <span id="value-physicalenvironment" class="font-bold text-gray-700">5</span>
+        </div>
+        <input type="range" id="slider-physicalenvironment" min="1" max="10" value="5" class="slider">
+      </div>
+    </div>
+
+    <div class="flex justify-end items-center pt-12"> 
+      <a id="tweetButton" href="#" class="bg-blue-500 text-white px-4 py-2 rounded">Share on X</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/locales/ja_JP.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/plugins/exporting.js"></script>
+  <script src="src/fonts/notosans-jp.js"></script>
+  <script src="//cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
+
+
+  <script>
+    am5.ready(function() {
+      // Initialize the chart
+      var root = am5.Root.new("chartdiv", {
+        useSafeResolution: false
+      });
+
+      root.setThemes([
+        am5themes_Animated.new(root),
+        am5themes_Responsive.new(root)
+      ]);
+
+      // Create Radar Chart
+      var chart = root.container.children.push(
+        am5radar.RadarChart.new(root, {
+          panX: false,
+          panY: false,
+          radius: am5.percent(100),
+          startAngle: 0,
+          endAngle: 360,
+          paddingLeft: 30,
+          paddingRight: 30,
+          paddingTop: 30,  // Increased paddingTop for extra space
+          paddingBottom: 30,  // Increased paddingBottom for extra space
+        })
+      );
+
+      // Add date label to the bottom right of the chart
+      var date = new Date();
+      var dateString = date.toISOString().split('T')[0];
+      
+      // var label = chart.children.push(am5.Label.new(root, {
+      //   text: dateString,
+      //   fontSize: 12,
+      //   x: am5.percent(85),
+      //   centerX: am5.percent(75),
+      //   y: am5.percent(100),
+      //   centerY: am5.percent(40),
+      // }));
+
+      // Create X-axis
+      var xRenderer = am5radar.AxisRendererCircular.new(root, {});
+      xRenderer.labels.template.setAll({
+        // textType: "adjusted"
+      });
+
+      var xAxis = chart.xAxes.push(
+        am5xy.CategoryAxis.new(root, {
+          maxDeviation: 0,
+          categoryField: "category",
+          renderer: xRenderer,
+          tooltip: am5.Tooltip.new(root, {})
+        })
+      );
+
+      xAxis.get("renderer").labels.template.setAll({
+        fontSize: 15, // xAxis label font size
+      });
+
+      // Create Y-axis
+      var yAxis = chart.yAxes.push(
+        am5xy.ValueAxis.new(root, {
+          min: 0,
+          max: 10,
+          renderer: am5radar.AxisRendererRadial.new(root, {
+            position: "absolute",
+            axisAngle: 180,
+          })
+        })
+      );
+
+      yAxis.get("renderer").labels.template.setAll({
+        fill: am5.color(0x95a5a6),
+        fontSize: 12,
+        paddingLeft: 3,
+      });
+
+      // Add grid lines to the Y-axis
+      for (var i = 1; i <= 10; i++) {
+        var rangeDataItem = yAxis.makeDataItem({
+          value: i
+        });
+
+        yAxis.createAxisRange(rangeDataItem);
+
+        var grid = rangeDataItem.get("grid");
+        if (grid) {
+          if (i === 10) {
+            grid.setAll({
+              stroke: am5.color(0x95a5a6),
+              strokeOpacity: 0.5,
+              strokeWidth: 2
+            });
+          } else {
+            grid.setAll({
+              stroke: am5.color(0x000000),
+              strokeOpacity: 0.2,
+              strokeDasharray: [9, 10],
+              strokeWidth: 1
+            });
+          }
+        }
+      }
+
+      // Data for the chart
+      var data = [
+        { category: '健康', value: 5 },
+        { category: '家族・パートナー', value: 5 },
+        { category: '人間関係', value: 5 },
+        { category: '学び・自己啓発', value: 5 },
+        { category: '遊び・余暇', value: 5 },
+        { category: '物理的環境', value: 5 },
+        { category: '仕事・キャリア', value: 5 },
+        { category: 'お金・経済', value: 5 },
+      ];
+
+      // Create series
+      var series = chart.series.push(
+        am5radar.RadarColumnSeries.new(root, {
+          name: "Life Wheel",
+          xAxis: xAxis,
+          yAxis: yAxis,
+          valueYField: "value",
+          categoryXField: "category"
+        })
+      );
+
+      series.columns.template.setAll({
+        tooltipText: "",
+        cursorOverStyle: "pointer",
+        fill: am5.color(0x67b7dc),
+        fillOpacity: 0.5,
+        strokeOpacity: 0,
+        strokeWidth: 1,
+        stroke: am5.color(0x0056b3),
+        width: am5.percent(100),
+        margin: 0
+      });
+
+      // Add bullets to the series
+      series.bullets.push(function() {
+        return am5.Bullet.new(root, {
+          locationY: 0.9,
+          sprite: am5.Label.new(root, {
+            text: "{valueY}",
+            fill: am5.color(0x535c68),
+            centerY: am5.p50,
+            centerX: am5.p50,
+            populateText: true,
+            fontSize: 24
+          })
+        });
+      });
+
+      document.getElementById('colorSelector').addEventListener('change', function() {
+        var selectedColor = this.value;
+        series.columns.template.setAll({
+          fill: am5.color(selectedColor)
+        });
+        // Update the series to reflect the new color
+        // series.columns.setAll(series.columns.values);
+      });
+
+      // Set data
+      series.data.setAll(data);
+      xAxis.data.setAll(data);
+      chart.appear(1000, 100);
+      
+      // Exporting settings with adjusted padding
+      var exporting = am5plugins_exporting.Exporting.new(root, {
+        menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+        filePrefix: `life_wheel_${dateString.replace(/-/g, '')}`, // Include date in the file name
+        pngOptions: {
+          quality: 1.2
+        },
+        jpgOptions: {
+          disabled: true
+        },
+        pdfOptions: {
+          disabled: true
+        },
+        printOptions: {
+          disabled: true
+        },
+      });
+
+      // Function to update data
+      function updateData(category, value) {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].category === category) {
+            data[i].value = value;
+            break;
+          }
+        }
+        series.data.setAll(data);
+      }
+
+      // Add event listeners for sliders
+      document.querySelectorAll('.slider').forEach(slider => {
+        slider.addEventListener('input', function() {
+          const categoryMap = {
+            'slider-physicalenvironment': '物理的環境',
+            'slider-career': '仕事・キャリア',
+            'slider-money': 'お金・経済',
+            'slider-health': '健康',
+            'slider-family': '家族・パートナー',
+            'slider-relationships': '人間関係',
+            'slider-learning': '学び・自己啓発',
+            'slider-leisure': '遊び・余暇'
+          };
+
+          const category = categoryMap[this.id];
+          const value = parseInt(this.value);
+          document.getElementById('value-' + this.id.split('-')[1]).innerText = value;
+          updateData(category, value);
+        });
+      });
+
+      // Add event listener for color selector
+      document.getElementById('colorSelector').addEventListener('change', function() {
+        var selectedColor = this.value;
+        series.columns.template.setAll({
+          fill: am5.color(selectedColor)
+        });
+        document.querySelectorAll('.slider').forEach(slider => {
+          slider.style.setProperty('--slider-thumb-color', selectedColor);
+          slider.style.setProperty('--slider-track-color', selectedColor);
+        });
+        // Update the series to reflect the new color
+        series.appear(1, 1);
+      });
+
+    });
+  </script>
+</body>
+</html>
