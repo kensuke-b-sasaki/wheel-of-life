@@ -22,11 +22,11 @@
       margin: 100;
       font-family: 'Noto Sans';
     }
-    footer {
-      background-color: #2f3640;
-    }
     header {
-      background-color: #2f3640;
+      background-color: white;
+    }
+    footer {
+      background-color: #f7fafc;
     }
     .min-h-screen {
       min-height: 100vh;
@@ -63,15 +63,15 @@
   }
   </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center justify-start min-h-screen">
+<body class="bg-white flex flex-col items-center justify-start min-h-screen">
 
-  <header class="header w-full text-white py-6">
+  <header class="header w-full text-white py-6 pb-3">
     <div class="container mx-auto px-4 max-w-4xl">
-      <h1 class="text-2xl font-bold">Wheel of Life / 人生の輪</h1>
+      <h1 class="text-2xl font-bold text-gray-700">Wheel of Life / 人生の輪</h1>
     </div>
   </header>
 
-  <div class="w-full max-w-4xl bg-white shadow-md p-6 pb-24 flex-grow">
+  <div class="w-full max-w-4xl bg-white p-6 pb-24 flex-grow">
     
     <div class="relative mt-2 pb-8">
       <button type="button" id="colorButton" class="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
@@ -192,7 +192,7 @@
 
   </div>
 
-  <footer class="w-full text-white py-8">
+  <footer class="w-full text-gray-700 py-8">
     <div class="container mx-auto px-4 max-w-4xl">
       <p class="text-sm font-bold mb-4">Wheel of life / 人生の輪</p>
       <p class="mb-2 text-sm">注意・免責事項</p>
@@ -296,7 +296,7 @@
           } else {
             grid.setAll({
               stroke: am5.color(0x000000),
-              strokeOpacity: 0.2,
+              strokeOpacity: 0.15,
               strokeDasharray: [9, 10],
               strokeWidth: 1
             });
